@@ -1,0 +1,34 @@
+{
+  "name": "nfsu",
+  "version": "0.0.0",
+  "main": "nfsu.js",
+  "description": "Node file system utilities",
+  "homepage": "https://github.com/dmi3y/nfsu",
+  "bugs": "https://github.com/dmi3y/nfsu/issues",
+  "author": {
+    "name": "Dmitry",
+    "email": "lapshukov@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmi3y/nfsu"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "files": [
+    "nfsu.js"
+  ],
+  "keywords": [],
+  "devDependencies": {
+    "jshint-stylish": "~0.1.3",
+    "gulp": "~3.6.2",
+    "gulp-jshint": "~1.5.5",
+    "gulp-nodeunit": "0.0.5"
+  },
+  "scripts": {
+    "test": "gulp"
+  }
+}

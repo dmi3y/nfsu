@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="nfsu_test.js"
+             errors="0"
+             failures="0"
+             tests="2">
+    
+      
+      <testcase name="nfsu - lookdownFiles">
+        
+      </testcase>
+    
+      
+      <testcase name="nfsu - lookupFile">
+        
+      </testcase>
+    
+  </testsuite>
+
