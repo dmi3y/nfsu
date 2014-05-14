@@ -12,7 +12,6 @@ gulp.task('lint', function() {
 gulp.task('test', function () {
     gulp.src('./test/**/*_test.js')
         .pipe(nodeunit({
-            reporter: 'junit',
             reporterOptions: {
                 output: 'test'
             }
