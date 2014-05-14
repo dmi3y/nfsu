@@ -3,14 +3,13 @@
 
 > Wrapper for low level NodeJS filesystem utilities.
 
-Mixed `fs` and `path` toolkit, plus commonly used syncronious shortcusts on top.
+Mixed `fs` and `path` toolkit, plus commonly used syncronious shortcuts on top.
 
 ## Usage
 
 ```js
 
     var nfsu = require('nfsu');
-    
 ```
 
 ## Cheatsheet
@@ -18,7 +17,6 @@ Mixed `fs` and `path` toolkit, plus commonly used syncronious shortcusts on top.
 ```js
 
     nfsu.readFileStr(file/*str*/);
-
 ```
 
 Reads `file` and returns string representation of it or `false` if file does not exists.
@@ -26,7 +24,6 @@ Reads `file` and returns string representation of it or `false` if file does not
 ```js
 
     nfsu.readFileJson(file/*str*/);
-
 ```
 
 Reads JSON `file` and returns parsed JSON object or `false` if file does not exists.
@@ -34,7 +31,6 @@ Reads JSON `file` and returns parsed JSON object or `false` if file does not exi
 ```js
 
     nfsu.readDir(target/*str*/);
-    
 ```
 
 Reads `target` directory and returns array of contained folders/files or `false` if directory does not exists.
@@ -42,7 +38,6 @@ Reads `target` directory and returns array of contained folders/files or `false`
 ```js
 
    nfsu.ifFile(target/*str*/);
-   
 ```
 
 Checks if `target` is file and returns `true` if so and `false` if it is not or file does not exists.
@@ -50,7 +45,6 @@ Checks if `target` is file and returns `true` if so and `false` if it is not or 
 ```js
 
    nfsu.ifDir(target);
-
 ```
 
 Checks if `target` is directory and returns `true` if so and `false` if it is not or directory does not exists.
@@ -58,7 +52,6 @@ Checks if `target` is directory and returns `true` if so and `false` if it is no
 ```js
 
    nfsu.lookDownFilesByExts(targets/*arr*/, exts/*arr*/, opt/*obj*/);
-   
 ```
 
 Recursively iterates down through all the 'targets' folder items and gathers all the files wich are listed into `exts` (.css, .js, .jpg etc).
@@ -67,8 +60,8 @@ Additionally `opt` configuration may be provided.
 ```js
 
    opt = { excl:['exclude/folder', 'exclude/file.js'], base: '/basefolder' };
-   
-````
+```
+
 By default opt.base is current working directory.
 
 Returns object with key(s) as file extentions and value(s) array of accordingly resolved file pathes found to that extention, or empty array if there is nothing found.
@@ -96,7 +89,6 @@ Tip: To filter files with no extention provide empty sting into 'exts' array.
 ```js 
 
     nfsu.lookUpFileByName(filename/*str*/, base/*str*/, stopby/*str*/);
-    
 ````
 
 Recursively iterates up from the current working directory or `base` untill `filename` found, or userhome|`stopby`|top directory.
