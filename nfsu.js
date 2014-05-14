@@ -8,37 +8,34 @@
 'use strict';
 
 var
-    fs = require('fs'),
-    _path = require("path"),
-
     nfsu = {
         userhome: process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE,
-
-        existsSync: fs.existsSync,
-        resolve: _path.resolve,
-        dirname: _path.dirname,
-
-        readFile: function(path) {
-            return fs.existsSync(path) && fs.readFileSync(path).toString();
+        readFileStr: function(file) {
+            file = this.p.resolve(file);
+            return this.f.existsSync(file) && this.f.readFileSync(file).toString();
         },
 
-        readJson: function(path) {
-            return JSON.parse(this.readFile(path));
+        readFileJson: function(file) {
+            file = this.p.resolve(file);
+            return JSON.parse(this.f.readFile(file));
         },
 
-        readdirSync: function(path) {
-            return fs.existsSync(path) && fs.readdirSync(path);
+        readDir: function(target) {
+            target = this.p.resolve(target);
+            return this.f.existsSync(target) && this.f.readdirSync(target);
         },
 
-        isFile: function(path) {
-            return fs.existsSync(path) && fs.statSync(path).isFile();
+        ifFile: function(target) {
+            target = this.p.resolve(target);
+            return this.f.existsSync(target) && this.f.statSync(target).isFile();
         },
 
-        isDirectory: function(path) {
-            return fs.existsSync(path) && fs.statSync(path).isDirectory();
+        ifDir: function(target) {
+            target = this.p.resolve(target);
+            return this.f.existsSync(target) && this.f.statSync(target).isDirectory();
         },
 
-        lookdownFiles: function(targets, exts, opt) {
+        lookdownFilesByExts: function(targets, exts, opt) {
             var
                 extsLen = exts.length,
                 files = {},
@@ -52,9 +49,9 @@ var
 
             opt = opt || {};
             excl = (opt.excl || []).map(function(el) {
-                return self.resolve(process.cwd() + '/' + el);
+                return self.p.resolve(process.cwd() + '/' + el);
             });
-            base = this.resolve(opt.base || process.cwd());
+            base = this.p.resolve(opt.base || process.cwd());
 
             (function digup(trgs, base) {
                 var
@@ -66,19 +63,19 @@ var
 
                 for (i = 0; i < trgsLen; i += 1) {
                     it = trgs[i];
-                    fullpath = self.resolve(base + '/' + it);
+                    fullpath = self.p.resolve(base + '/' + it);
 
-                    if (excl.indexOf(fullpath) === -1) {
+                    if ( excl.indexOf(fullpath) === -1 ) {
 
-                        if (self.isFile(fullpath)) {
+                        if ( self.ifFile(fullpath) ) {
                             ext = (/\.[^\.]*$/.exec(it) || ['']).pop();
                             if (files[ext]) {
                                 files[ext].push(fullpath);
                             }
 
-                        } else if (self.isDirectory(fullpath)) {
+                        } else if ( self.ifDir(fullpath) ) {
 
-                            digup(self.readdirSync(fullpath), fullpath);
+                            digup(self.readDir(fullpath), fullpath);
                         }
                     }
 
@@ -89,40 +86,54 @@ var
             return files;
         },
 
-        lookupFile: function(rcname, base, stopby) {
+        lookupFileByName: function(file, base, stopby) {
             var
-                lookupd = base || process.cwd(),
+                lookupd = base? this.p.resolve(base): process.cwd(),
                 userhome = this.userhome,
-                stop = this.resolve(stopby || userhome),
-                file,
+                stop = this.p.resolve(stopby || userhome),
+                isFile,
                 fullpath,
                 self = this;
 
             function isGoodToGoUp() {
                 var
                     isStop = (lookupd === stop),
-                    _lookupd = self.resolve(lookupd + '/../'),
+                    _lookupd = self.p.resolve(lookupd + '/../'),
                     isTop = (lookupd === _lookupd),
                     gtg;
 
-                file = self.isFile(fullpath);
+                isFile = self.ifFile(fullpath);
 
-                gtg = (!file && !isStop && !isTop);
+                gtg = (!isFile && !isStop && !isTop);
                 lookupd = _lookupd;
                 return gtg;
             }
 
             (function traverseUp() {
 
-                fullpath = self.resolve(lookupd, rcname);
+                fullpath = self.p.resolve(lookupd, file);
 
                 if (isGoodToGoUp()) {
                     traverseUp();
                 }
             }());
 
-            return file ? fullpath : null;
+            return isFile ? fullpath : null;
         }
-    };
+    },
+    proto = Object.create({
+        fs: require('fs'),
+        path: require("path")
+    }),
+    p;
 
-module.exports = nfsu;
+for (p in nfsu) {
+    if ( nfsu.hasOwnProperty(p) ) {
+        proto[p] = nfsu[p];
+    }
+}
+
+proto.f = proto.fs;
+proto.p = proto.path;
+
+module.exports = proto;
