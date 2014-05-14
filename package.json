@@ -17,7 +17,7 @@
     {
       "type": "MIT"
     }
-  ]
+  ],
   "keywords": ["filesystem", "utilities"],
   "devDependencies": {
     "jshint-stylish": "~0.1.3",
