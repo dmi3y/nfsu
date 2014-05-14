@@ -5,18 +5,18 @@ var h = require('../nfsu.js');
 exports.nfsu = {
     'lookdownFilesByExts': function(test) {
         var
-        exp1 = {
-            '.css': [
-                h.p.resolve('test/assets/a/a.css'),
-                h.p.resolve('test/assets/a/b/b.css'),
-                h.p.resolve('test/assets/a/b/c/d/d.css'),
-                h.p.resolve('test/assets/x/x.css'),
-                h.p.resolve('test/assets/x/y/z.css')
-            ],
-            '.csslintrc': [
-                h.p.resolve('test/assets/a/.csslintrc')
-            ]
-        },
+            exp1 = {
+                '.css': [
+                    h.p.resolve('test/assets/a/a.css'),
+                    h.p.resolve('test/assets/a/b/b.css'),
+                    h.p.resolve('test/assets/a/b/c/d/d.css'),
+                    h.p.resolve('test/assets/x/x.css'),
+                    h.p.resolve('test/assets/x/y/z.css')
+                ],
+                '.csslintrc': [
+                    h.p.resolve('test/assets/a/.csslintrc')
+                ]
+            },
             res1 = h.lookdownFilesByExts(['test/'], ['.csslintrc', '.css']),
             exp2 = {
                 '.css': [
@@ -58,7 +58,7 @@ exports.nfsu = {
     },
     'lookupFileByName': function(test) {
         var
-        exp1 = h.p.resolve('test/assets/a/.csslintrc'),
+            exp1 = h.p.resolve('test/assets/a/.csslintrc'),
             res1 = h.lookupFileByName('.csslintrc', h.p.resolve('test/assets/a/b/c/d')),
             exp2 = h.p.resolve('package.json'),
             res2 = h.lookupFileByName('package.json'),
@@ -69,6 +69,18 @@ exports.nfsu = {
         test.equal(exp1, res1);
         test.equal(exp2, res2);
         test.equal(exp3, res3);
+        test.done();
+    },
+    'readFileJson': function(test) {
+        var
+            exp1 = {
+                "a":1,
+                "b":2
+            },
+            res1 = h.readFileJson('test/assets/o.json');
+
+        test.expect(1);
+        test.deepEqual(exp1, res1);
         test.done();
     }
 };

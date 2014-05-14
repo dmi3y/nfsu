@@ -16,8 +16,7 @@ var
         },
 
         readFileJson: function(file) {
-            file = this.p.resolve(file);
-            return JSON.parse(this.f.readFile(file));
+            return JSON.parse(this.readFileStr(file));
         },
 
         readDir: function(target) {
